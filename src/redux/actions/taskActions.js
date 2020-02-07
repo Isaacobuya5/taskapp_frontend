@@ -28,12 +28,14 @@ export const fetchAllTasks = () => {
 };
 
 // thunk for adding a new task
-export const saveNewTask = task => {
+export function saveNewTask(task) {
   return function(dispatch) {
-    addingNewTask()
-      .then(response => {
-        dispatch(saveNewTask(task));
+    return addingNewTask(task)
+      .then(() => {
+        dispatch(saveNewTaskAction(task));
       })
-      .catch(error => console.log(error));
+      .catch(error => {
+        console.log(error);
+      });
   };
-};
+}
