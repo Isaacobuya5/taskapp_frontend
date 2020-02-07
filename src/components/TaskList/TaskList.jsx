@@ -75,9 +75,21 @@ const ViewTasks = props => {
   );
 };
 
+const completedTasksFirst = tasks => {
+  return tasks.sort((a, b) => {
+    if (a.completed === b.completed) {
+      return 0;
+    } else if (b.completed > a.completed) {
+      return 1;
+    } else {
+      return -1;
+    }
+  });
+};
+
 const mapStateToProps = ({ tasks }) => {
   return {
-    tasks
+    tasks: completedTasksFirst(tasks)
   };
 };
 
