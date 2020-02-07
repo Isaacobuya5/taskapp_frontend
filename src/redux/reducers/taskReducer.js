@@ -9,6 +9,8 @@ export const taskReducer = (state = initialState.tasks, action) => {
       return [...action.tasks];
     case types.SAVE_TASK_SUCCESS:
       return [...state, { ...action.task }];
+    case types.DELETE_TASK_SUCCESS:
+      return state.filter(task => task._id !== action.task._id);
     default:
       return state;
   }

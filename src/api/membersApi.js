@@ -17,7 +17,8 @@ export function loginUser(email, password) {
     headers: { "content-type": "application/json" },
     body: JSON.stringify({ email, password })
   })
-    .then(response => response.json()).then(user => {
+    .then(response => response.json())
+    .then(user => {
       localStorage.setItem("user", JSON.stringify(user));
       return user;
     })
@@ -25,6 +26,6 @@ export function loginUser(email, password) {
 }
 
 export function logoutUser() {
-      // remove user from local storage to log user out
-    localStorage.removeItem('user');
+  // remove user from local storage to log user out
+  localStorage.removeItem("user");
 }

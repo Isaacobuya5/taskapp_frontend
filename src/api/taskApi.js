@@ -15,3 +15,12 @@ export function addingNewTask(task) {
     .then(response => response.json())
     .catch(error => console.log(error));
 }
+
+// delete a task
+export function deleteTask(taskId) {
+  return fetch(baseUri + `/${taskId}`, {
+    method: "DELETE"
+  })
+    .then(response => response.json())
+    .catch(error => console.log(error));
+}

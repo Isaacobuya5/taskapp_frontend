@@ -4,11 +4,14 @@ import { Table } from "reactstrap";
 import ButtonComponent from "../Button/Button";
 import EditTask from "../EditTask/EditTask";
 
-import { fetchAllTasks } from "../../redux/actions/taskActions";
+import {
+  fetchAllTasks,
+  deleteAvailableTask
+} from "../../redux/actions/taskActions";
 import { connect } from "react-redux";
 
 const ViewTasks = props => {
-  const { fetchAllTasks, tasks } = props;
+  const { fetchAllTasks, tasks, deleteAvailableTask } = props;
 
   useEffect(() => {
     fetchAllTasks();
@@ -39,22 +42,28 @@ const ViewTasks = props => {
             </tr>
           </thead>
           <tbody>
-            {tasks.map(({ task, description, completed }, index) => (
+            {tasks.map((taskObject, index) => (
               // <div key={index}>{task} {completed} </div>
               <tr key={index}>
                 <th scope="row">{index + 1}</th>
-                <td>{task}</td>
-                <td>{description}</td>
-                <td>{String(completed)}</td>
+                <td>{taskObject.task}</td>
+                <td>{taskObject.description}</td>
+                <td>{String(taskObject.completed)}</td>
                 <td>
                   <ButtonComponent
                     color="success"
                     displayName="Edit Task"
                     click={toggle}
+                    taskObject={taskObject}
                   />
                 </td>
                 <td>
-                  <ButtonComponent color="danger" displayName="Delete Task" />
+                  <ButtonComponent
+                    color="danger"
+                    displayName="Delete Task"
+                    click={deleteAvailableTask}
+                    taskObject={taskObject}
+                  />
                 </td>
               </tr>
             ))}
@@ -74,7 +83,8 @@ const mapStateToProps = ({ tasks }) => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetchAllTasks: () => dispatch(fetchAllTasks())
+    fetchAllTasks: () => dispatch(fetchAllTasks()),
+    deleteAvailableTask: task => dispatch(deleteAvailableTask(task))
   };
 };
 
