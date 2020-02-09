@@ -2,11 +2,11 @@ import React from "react";
 import { Button } from "reactstrap";
 
 const ButtonComponent = props => {
-  const { color, displayName, click, taskObject } = props;
+  const { color, displayName, click, mark, taskObject } = props;
   return (
     <div className="action_buttons">
       {color === "success" ? (
-        <Button color={color} onClick={click} taskObject={taskObject}>
+        <Button color={color} onClick={() => mark(taskObject)}>
           {displayName}
         </Button>
       ) : (

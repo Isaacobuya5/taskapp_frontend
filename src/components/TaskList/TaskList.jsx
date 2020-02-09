@@ -1,21 +1,32 @@
 import React, { useState, useEffect } from "react";
 
-import { Table } from "reactstrap";
+import { Table, Button } from "reactstrap";
 import ButtonComponent from "../Button/Button";
 import EditTask from "../EditTask/EditTask";
 
 import {
   fetchAllTasks,
-  deleteAvailableTask
+  deleteAvailableTask,
+  markTask
 } from "../../redux/actions/taskActions";
+import { getAllTasks } from "../../api/taskApi";
 import { connect } from "react-redux";
 
 const ViewTasks = props => {
-  const { fetchAllTasks, tasks, deleteAvailableTask } = props;
+  const { fetchAllTasks, tasks, deleteAvailableTask, markTask } = props;
+
+  const [availableTasks, setAvailableTasks] = useState(tasks);
 
   useEffect(() => {
-    fetchAllTasks();
-  }, []);
+    if (tasks.length === 0) {
+      getAllTasks()
+        .then(response => {
+          console.log(response);
+          setAvailableTasks(response);
+        })
+        .catch(error => console.log(error));
+    }
+  }, [tasks]);
 
   console.log(tasks);
 
@@ -27,7 +38,7 @@ const ViewTasks = props => {
   return (
     <div className="tasks-list">
       <h4>List of Tasks</h4>
-      {tasks.length === 0 ? (
+      {availableTasks.length === 0 ? (
         "Loading..."
       ) : (
         <Table>
@@ -37,12 +48,12 @@ const ViewTasks = props => {
               <th>Task Name</th>
               <th>Description</th>
               <th>Completed</th>
-              <th>Edit</th>
+              <th>Mark Uncomplete</th>
               <th>Delete</th>
             </tr>
           </thead>
           <tbody>
-            {tasks.map((taskObject, index) => (
+            {availableTasks.map((taskObject, index) => (
               // <div key={index}>{task} {completed} </div>
               <tr key={index}>
                 <th scope="row">{index + 1}</th>
@@ -50,12 +61,16 @@ const ViewTasks = props => {
                 <td>{taskObject.description}</td>
                 <td>{String(taskObject.completed)}</td>
                 <td>
-                  <ButtonComponent
-                    color="success"
-                    displayName="Edit Task"
-                    click={toggle}
-                    taskObject={taskObject}
-                  />
+                  {String(taskObject.completed) === "false" ? (
+                    <ButtonComponent
+                      color="success"
+                      displayName="Mark Complete"
+                      mark={markTask}
+                      taskObject={taskObject}
+                    />
+                  ) : (
+                    "Completed"
+                  )}
                 </td>
                 <td>
                   <ButtonComponent
@@ -96,7 +111,8 @@ const mapStateToProps = ({ tasks }) => {
 const mapDispatchToProps = dispatch => {
   return {
     fetchAllTasks: () => dispatch(fetchAllTasks()),
-    deleteAvailableTask: task => dispatch(deleteAvailableTask(task))
+    deleteAvailableTask: task => dispatch(deleteAvailableTask(task)),
+    markTask: task => dispatch(markTask(task))
   };
 };
 

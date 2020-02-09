@@ -58,10 +58,9 @@ export const fetchAllTasks = () => {
 // thunk for adding a new task
 export function saveNewTask(task) {
   return function(dispatch) {
+    dispatch(saveNewTaskAction(task));
     return addingNewTask(task)
-      .then(() => {
-        dispatch(saveNewTaskAction(task));
-      })
+      .then(() => {})
       .catch(error => {
         console.log(error);
       });

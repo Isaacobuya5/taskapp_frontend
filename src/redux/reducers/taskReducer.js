@@ -11,6 +11,10 @@ export const taskReducer = (state = initialState.tasks, action) => {
       return [...state, { ...action.task }];
     case types.DELETE_TASK_SUCCESS:
       return state.filter(task => task._id !== action.task._id);
+    case types.MARK_TASK_COMPLETED:
+      return state.map(task =>
+        task._id === action.task._id ? action.task : task
+      );
     default:
       return state;
   }

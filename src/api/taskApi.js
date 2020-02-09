@@ -4,27 +4,22 @@ export function getAllTasks() {
   const token = localStorage.token;
   const user = JSON.parse(localStorage.getItem("users"));
   const { username } = user;
-  return (
-    fetch(`${baseUri}/fetch`, {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-        Accept: "application/json",
-        Authorization: `Bearer ${token}`
-      },
-      body: JSON.stringify({ username: username })
+  return fetch(`${baseUri}/fetch`, {
+    method: "POST",
+    headers: {
+      "content-type": "application/json",
+      Accept: "application/json",
+      Authorization: `Bearer ${token}`
+    },
+    body: JSON.stringify({ username: username })
+  })
+    .then(response => {
+      if (response.ok) return response.json();
+      if (response.status === 400) {
+        throw new Error("An error occurred");
+      }
     })
-      // return fetch(baseUri, {
-      //   method: "GET",
-      //   headers: {
-      //     "content-type": "application/json",
-      //     Accept: "application/json",
-      //     Authorization: `Bearer ${token}`
-      //   }
-      // })
-      .then(response => response.json())
-      .catch(error => console.log(error))
-  );
+    .catch(error => console.log(error));
 }
 
 export function addingNewTask(task) {
