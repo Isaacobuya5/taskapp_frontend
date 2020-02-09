@@ -18,14 +18,14 @@ const ViewTasks = props => {
   const [availableTasks, setAvailableTasks] = useState(tasks);
 
   useEffect(() => {
-    if (tasks.length === 0) {
-      getAllTasks()
-        .then(response => {
-          console.log(response);
-          setAvailableTasks(response);
-        })
-        .catch(error => console.log(error));
-    }
+    // if (tasks.length === 0) {
+    getAllTasks()
+      .then(response => {
+        console.log(response);
+        setAvailableTasks(response);
+      })
+      .catch(error => console.log(error));
+    // }
   }, [tasks]);
 
   console.log(tasks);
