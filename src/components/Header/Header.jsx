@@ -1,45 +1,38 @@
-import React,{useState} from "react";
+import React, { useState, useEffect } from "react";
+
+import Logout from "../Logout/logout";
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
-import { logoutMember }  from "../../redux/actions/memberActions";
 import { withRouter } from "react-router-dom";
 import "./header.css";
 
-const Header = (props) => {
-    console.log(props)
-    const [redirect, setRedirect] = useState(false);
-    const {users, logoutMember, history} = props; 
-    console.log(users)
-// const { user } = users.user;
-return (
+const Header = props => {
+  const { currentUser, buttonStatus } = props;
+  const { clicked } = buttonStatus;
+  console.log(buttonStatus.clicked);
+  console.log(currentUser);
+
+  // getting loggedIn Status
+  const { loggedIn } = currentUser;
+  console.log(loggedIn);
+
+  return (
     <>
-    {redirect && <Redirect to="/"/>}
-    <div className="header">
+      <div className="header">
         <span className="title">
-            <h3>Task Application</h3>
+          <h3>Task Application</h3>
         </span>
-        {users ? <div style={{ color: "#fff", marginLeft: "70%"}} >{users.user.user.username}  <button onClick={() => {
-            logoutMember()
-            setRedirect(true)
-            // history.push("/")
-            }} type="submit" className="btn btn-primary"> Logout </button>
-    </div> : ""}
-
-    </div>
+        {clicked ? <Logout /> : ""}
+      </div>
     </>
-)
-}
+  );
+};
 
-const mapStateToProps = ({ users }) => {
-    return {
-        users
-    }
-}
+const mapStateToProps = ({ currentUser, buttonStatus }) => {
+  return {
+    currentUser,
+    buttonStatus
+  };
+};
 
-const mapDispatchToProps = dispatch => {
-return {
-    logoutMember: () => dispatch(logoutMember())
-}
-}
-
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Header));
+export default withRouter(connect(mapStateToProps)(Header));

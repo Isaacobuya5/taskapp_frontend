@@ -1,5 +1,5 @@
 import * as types from "../action.types";
-import { getAllMembers, addingNewTask, deleteTask } from "../../api/taskApi";
+import { getAllTasks, addingNewTask, deleteTask } from "../../api/taskApi";
 
 export const fetchAllTasksAction = tasks => {
   return {
@@ -23,10 +23,18 @@ export function deleteTaskAction(task) {
   };
 }
 
+// mark task as completed
+export function markTaskComplete(task) {
+  return {
+    type: types.MARK_TASK_COMPLETED,
+    task
+  };
+}
+
 // thunk for fetching added tasks
 export const fetchAllTasks = () => {
   return function(dispatch) {
-    getAllMembers()
+    getAllTasks()
       .then(response => {
         dispatch(fetchAllTasksAction(response));
       })

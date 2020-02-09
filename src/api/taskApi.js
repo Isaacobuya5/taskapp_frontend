@@ -1,16 +1,45 @@
 const baseUri = "http://localhost:4000/api/tasks";
 
-export function getAllMembers() {
-  return fetch(baseUri)
-    .then(response => response.json())
-    .catch(error => console.log(error));
+export function getAllTasks() {
+  const token = localStorage.token;
+  const user = JSON.parse(localStorage.getItem("users"));
+  const { username } = user;
+  return (
+    fetch(`${baseUri}/fetch`, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+        Accept: "application/json",
+        Authorization: `Bearer ${token}`
+      },
+      body: JSON.stringify({ username: username })
+    })
+      // return fetch(baseUri, {
+      //   method: "GET",
+      //   headers: {
+      //     "content-type": "application/json",
+      //     Accept: "application/json",
+      //     Authorization: `Bearer ${token}`
+      //   }
+      // })
+      .then(response => response.json())
+      .catch(error => console.log(error))
+  );
 }
 
 export function addingNewTask(task) {
+  // checking for available token
+  const user = JSON.parse(localStorage.getItem("users"));
+  const { username } = user;
+  const token = localStorage.token;
   return fetch(baseUri, {
     method: "POST",
-    headers: { "content-type": "application/json" },
-    body: JSON.stringify(task)
+    headers: {
+      "content-type": "application/json",
+      Accept: "application/json",
+      Authorization: `Bearer ${token}`
+    },
+    body: JSON.stringify({ ...task, username: username })
   })
     .then(response => response.json())
     .catch(error => console.log(error));
@@ -18,8 +47,14 @@ export function addingNewTask(task) {
 
 // delete a task
 export function deleteTask(taskId) {
+  const token = localStorage.token;
   return fetch(baseUri + `/${taskId}`, {
-    method: "DELETE"
+    method: "DELETE",
+    headers: {
+      "content-type": "application/json",
+      Accept: "application/json",
+      Authorization: `Bearer ${token}`
+    }
   })
     .then(response => response.json())
     .catch(error => console.log(error));

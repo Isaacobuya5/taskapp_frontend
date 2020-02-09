@@ -6,7 +6,7 @@ import "./registration.css";
 
 const Registration = props => {
   // destructuring the props
-  const { addNewMember } = props;
+  const { addNewMember, history } = props;
 
   const [member, setMember] = useState({
     userName: "",
@@ -39,6 +39,8 @@ const Registration = props => {
           .then(() => console.log("Success"))
           .catch(error => console.log(error))
       : setError("Sorry, your passwords does not match");
+
+    return history.push("/");
   };
   return (
     <div className="registration">

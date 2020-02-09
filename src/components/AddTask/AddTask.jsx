@@ -54,17 +54,17 @@ const AddTask = ({ saveNewTask }) => {
               onChange={handleChange}
             />
           </div>
-          <div class="form-group">
+          <div className="form-group">
             <label>Description</label>
             <textarea
-              class="form-control"
+              className="form-control"
               rows="3"
               value={description}
               name="description"
               onChange={handleChange}
             ></textarea>
           </div>
-          <div class="form-group form-check">
+          <div className="form-group form-check">
             <input
               type="checkbox"
               className="form-check-input"

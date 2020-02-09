@@ -5,9 +5,10 @@ export const PrivateRoute = WrappedComponent => ({
   isValidUser,
   ...otherProps
 }) => {
-  return isValidUser === null ? (
+  console.log(isValidUser);
+  return !isValidUser ? (
     <Redirect to="/" />
   ) : (
     <WrappedComponent {...otherProps} />
-  )
+  );
 };

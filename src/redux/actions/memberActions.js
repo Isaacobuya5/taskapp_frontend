@@ -3,7 +3,6 @@ import { saveMember, loginUser, logoutUser } from "../../api/membersApi";
 import { createBrowserHistory } from "history";
 const history = createBrowserHistory();
 
-
 export function addNewMemberAction(member) {
   return {
     type: types.ADD_MEMBER_SUCCESS,
@@ -18,11 +17,29 @@ export function loginMemberAction(user) {
   };
 }
 
-export function logoutMember() {
-logoutUser();
-return {
-  type: types.LOGOUT_USER_SUCCESS
+export function logoutMemberAction() {
+  return {
+    type: types.LOGOUT_USER_SUCCESS
+  };
 }
+
+export function buttonClickedAction() {
+  return {
+    type: types.CLICK_BUTTON_STATUS
+  };
+}
+
+export function buttonClickedLogout() {
+  return {
+    type: types.CLICK_BUTTON_LOGOUT
+  };
+}
+
+export function handleErrors(message) {
+  return {
+    type: types.HANDLE_ERROR_SUCCESS,
+    message
+  };
 }
 
 // thunk for adding a new member
@@ -38,12 +55,29 @@ export function addNewMember(member) {
   };
 }
 
+// thunk for login
 export function loginMember(email, password) {
   return function(dispatch) {
     return loginUser(email, password)
       .then(user => {
-        dispatch(loginMemberAction(user));
+        console.log(user);
+        dispatch(loginMemberAction(user.user));
+        dispatch(buttonClickedAction());
         // history.push("/add_task")
+      })
+      .catch(error => {
+        dispatch(handleErrors(error));
+        console.log("Error handled");
+      });
+  };
+}
+
+// thunk for logout
+export function logoutMember() {
+  return function(dispatch) {
+    return logoutUser()
+      .then(() => {
+        dispatch(logoutMemberAction());
       })
       .catch(error => {
         console.log(error);
