@@ -45,6 +45,17 @@ export function addingNewTask(task) {
     .catch(error => console.log(error));
 }
 
+// UPDATE TASK
+export function editTask(task) {
+  return fetch(baseUri + `/${task._id}`, {
+    method: "PUT",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify(task)
+  })
+    .then(response => response.json())
+    .catch(error => console.log(error));
+}
+
 // delete a task
 export function deleteTask(taskId) {
   const token = localStorage.token;

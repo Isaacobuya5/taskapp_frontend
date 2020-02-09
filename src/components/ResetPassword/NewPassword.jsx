@@ -2,9 +2,12 @@ import React, { useState, useEffect } from "react";
 // FORGOT PASSWORD API
 import { createNewPassword, updatePassword } from "../../api/membersApi";
 import { Redirect } from "react-router-dom";
+import { handleErrors } from "../../redux/actions/memberActions";
+import { connect } from "react-redux";
 import "./resetpassword.css";
 
 const NewPassword = props => {
+  const { handleErrors, exists, message } = props;
   // initial state for the form fields
   const [newPassword, setNewPassword] = useState({
     email: "",
@@ -12,18 +15,20 @@ const NewPassword = props => {
     confirmPassword: ""
   });
 
-  const [valid, setValid] = useState(true);
+  // const [valid, setValid] = useState(true);
+
+  // checking for token in the local storage
 
   useEffect(() => {
     const { token } = props.match.params;
     console.log(token);
     createNewPassword(token)
       .then(response => {
-        setValid(true);
         console.log(response);
       })
       .catch(error => {
-        setValid(false);
+        handleErrors(error);
+        // setValid(false);
       });
   }, []);
 
@@ -41,7 +46,7 @@ const NewPassword = props => {
   const handleSubmit = event => {
     event.preventDefault();
     if (password === confirmPassword) {
-      updatePassword({ email, password })
+      updatePassword(email, password)
         .then(() => {
           console.log("Password succesfully updated");
           return props.history.push("/");
@@ -52,7 +57,7 @@ const NewPassword = props => {
 
   return (
     <>
-      {valid ? (
+      {localStorage.getItem("userData") !== null ? (
         <div className="forgot_password">
           <div className="card" style={{ width: "32rem", height: "32" }}>
             <div className="card-body">
@@ -103,4 +108,17 @@ const NewPassword = props => {
   );
 };
 
-export default NewPassword;
+const mapStateToProps = ({ exists, message }) => {
+  return {
+    exists,
+    message
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    handleErrors: error => dispatch(handleErrors())
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(NewPassword);

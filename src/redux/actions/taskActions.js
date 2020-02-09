@@ -1,5 +1,10 @@
 import * as types from "../action.types";
-import { getAllTasks, addingNewTask, deleteTask } from "../../api/taskApi";
+import {
+  getAllTasks,
+  addingNewTask,
+  deleteTask,
+  editTask
+} from "../../api/taskApi";
 
 export const fetchAllTasksAction = tasks => {
   return {
@@ -25,6 +30,14 @@ export function deleteTaskAction(task) {
 
 // mark task as completed
 export function markTaskComplete(task) {
+  return {
+    type: types.MARK_TASK_COMPLETED,
+    task
+  };
+}
+
+// update task optimistic
+export function markTaskOptimistic(task) {
   return {
     type: types.MARK_TASK_COMPLETED,
     task
@@ -62,5 +75,17 @@ export function deleteAvailableTask(task) {
     return deleteTask(task._id)
       .then(() => console.log("successfully deleted"))
       .catch(error => console.log(error));
+  };
+}
+
+// update / mark task
+export function markTask(task) {
+  return function(dispatch) {
+    dispatch(markTaskOptimistic(task));
+    return editTask(task)
+      .then(() => console.log("succesful"))
+      .catch(error => {
+        console.log(error);
+      });
   };
 }

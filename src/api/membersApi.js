@@ -1,4 +1,3 @@
-import { handleResponse, handleError } from "./apiUtilities";
 const baseUri = "http://localhost:4000/api/users";
 
 export function saveMember(member) {
@@ -11,27 +10,6 @@ export function saveMember(member) {
     .catch(error => console.log(error));
 }
 
-// login a user
-// export function loginUser(email, password) {
-//   return fetch(`${baseUri}/login`, {
-//     method: "POST",
-//     headers: { "content-type": "application/json" },
-//     body: JSON.stringify({ email, password })
-//   })
-//     .then(response => {
-//       return response.json();
-//     })
-//     .then(user => {
-//       console.log(user);
-//       console.log(user.user);
-//       // localStorage.setItem("validUser", JSON.stringify(user));
-//       console.log(user.token);
-//       localStorage.setItem("token", user.token);
-//       localStorage.setItem("users", JSON.stringify(user.user));
-//       return user;
-//     })
-//     .catch(error => console.log(error));
-// }
 let errorMessage = null;
 let errorsArray = [];
 
@@ -51,10 +29,6 @@ export function loginUser(email, password) {
       return response.json();
     })
     .then(user => {
-      console.log(user);
-      console.log(user.user);
-      // localStorage.setItem("validUser", JSON.stringify(user));
-      console.log(user.token);
       localStorage.setItem("token", user.token);
       localStorage.setItem("users", JSON.stringify(user.user));
       return user;
@@ -92,18 +66,32 @@ export function resetPassword(email) {
 
 // verify link
 export function createNewPassword(token) {
-  return fetch(`${baseUri}/${token}`)
-    .then(response => response.json())
+  // console.log(`${baseUri}/${token}`);
+  return fetch(`${baseUri}/new_password/${token}`)
+    .then(response => {
+      console.log(response);
+      if (!response.ok) {
+        errorMessage = `${response.statusText} - Invalid token`;
+        throw new Error(errorMessage);
+      }
+      return response.json();
+    })
+    .then(user => {
+      localStorage.setItem("userData", JSON.stringify(user.payload));
+    })
     .catch(error => console.log(error));
 }
 
 // update the password for user
-export function updatePassword(user) {
-  return fetch(`${baseUri}/new_password/create`, {
+export function updatePassword(email, password) {
+  return fetch(baseUri + `/newpassword`, {
     method: "PUT",
     headers: { "content-type": "application/json" },
-    body: JSON.stringify(user)
+    body: JSON.stringify({ email: email, password: password })
   })
-    .then(response => response.json())
+    .then(response => {
+      localStorage.removeItem("userData");
+      return response.json();
+    })
     .catch(error => console.log(error));
 }

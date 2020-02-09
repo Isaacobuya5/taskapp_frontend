@@ -10,9 +10,6 @@ const Login = props => {
   const { loginMember, history, errorStatus } = props;
   const { exists, message } = errorStatus;
 
-  console.log(message);
-  console.log(exists);
-
   // state for the current user
   const [user, setCurrentUser] = useState({
     email: "",
