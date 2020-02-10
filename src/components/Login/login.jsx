@@ -15,6 +15,7 @@ const Login = props => {
     email: "",
     password: ""
   });
+  console.log(message);
 
   const { email, password } = user;
 
@@ -34,9 +35,10 @@ const Login = props => {
       .then(() => {
         if (!exists) {
           // buttonClicked();
+
           return history.push("/add_task");
         }
-        alert(message);
+        alert(String(message));
       })
       .catch(error => console.log(error));
     // alert(message);
@@ -47,6 +49,13 @@ const Login = props => {
       <div className="login">
         <div className="card" style={{ width: "42rem", height: "32" }}>
           <div className="card-body">
+            {exists ? (
+              <div className="alert alert-danger" role="alert">
+                {message}
+              </div>
+            ) : (
+              ""
+            )}
             <form onSubmit={handleSubmit}>
               <div className="form-group">
                 <label>Email address</label>

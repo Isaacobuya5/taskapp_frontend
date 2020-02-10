@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 // FORGOT PASSWORD API
 import { createNewPassword, updatePassword } from "../../api/membersApi";
 import { Redirect } from "react-router-dom";
-import { handleErrors } from "../../redux/actions/memberActions";
+import { catchErrors } from "../../redux/actions/memberActions";
 import { connect } from "react-redux";
 import "./resetpassword.css";
 
@@ -27,7 +27,7 @@ const NewPassword = props => {
         console.log(response);
       })
       .catch(error => {
-        handleErrors(error);
+        catchErrors(error);
         // setValid(false);
       });
   }, []);
@@ -117,7 +117,7 @@ const mapStateToProps = ({ exists, message }) => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    handleErrors: error => dispatch(handleErrors())
+    catchErrors: error => dispatch(catchErrors())
   };
 };
 

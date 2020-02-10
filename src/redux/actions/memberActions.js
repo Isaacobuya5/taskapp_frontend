@@ -33,10 +33,17 @@ export function buttonClickedLogout() {
   };
 }
 
-export function handleErrors(message) {
+export function catchErrors(message) {
   return {
-    type: types.HANDLE_ERROR_SUCCESS,
+    type: types.CATCH_ERROR_SUCCESS,
     message
+  };
+}
+
+// handledError
+export function handledErrorSuccess() {
+  return {
+    type: types.HANDLE_ERROR_SUCCESS
   };
 }
 
@@ -59,11 +66,16 @@ export function loginMember(email, password) {
     return loginUser(email, password)
       .then(user => {
         dispatch(loginMemberAction(user.user));
+        dispatch(handledErrorSuccess());
         dispatch(buttonClickedAction());
         // history.push("/add_task")
       })
       .catch(error => {
-        dispatch(handleErrors(error));
+        dispatch(
+          catchErrors(
+            "Invalid user with email address/password does not exists"
+          )
+        );
         console.log("Error handled");
       });
   };

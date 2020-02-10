@@ -13,6 +13,7 @@ export const CLICK_BUTTON_STATUS = "CLICK_BUTTON_STATUS";
 export const CLICK_BUTTON_LOGOUT = "CLICK_BUTTON_LOGOUT";
 
 // error status
+export const CATCH_ERROR_SUCCESS = "CATCH_ERROR_SUCCESS";
 export const HANDLE_ERROR_SUCCESS = "HANDLE_ERROR_SUCCESS";
 
 // forgot password
