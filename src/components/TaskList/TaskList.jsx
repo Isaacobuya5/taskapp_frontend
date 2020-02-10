@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 
-import { Table, Button } from "reactstrap";
+import { Table } from "reactstrap";
 import ButtonComponent from "../Button/Button";
-import EditTask from "../EditTask/EditTask";
 
 import {
   fetchAllTasks,
@@ -13,7 +12,7 @@ import { getAllTasks } from "../../api/taskApi";
 import { connect } from "react-redux";
 
 const ViewTasks = props => {
-  const { fetchAllTasks, tasks, deleteAvailableTask, markTask } = props;
+  const { tasks, deleteAvailableTask, markTask } = props;
 
   const [availableTasks, setAvailableTasks] = useState(tasks);
 
@@ -27,13 +26,6 @@ const ViewTasks = props => {
       .catch(error => console.log(error));
     // }
   }, [tasks]);
-
-  console.log(tasks);
-
-  // initial state of modal window
-  const [modal, setModal] = useState(false);
-
-  const toggle = () => setModal(!modal);
 
   return (
     <div className="tasks-list">
@@ -85,7 +77,6 @@ const ViewTasks = props => {
           </tbody>
         </Table>
       )}
-      <EditTask modal={modal} toggle={toggle} />
     </div>
   );
 };

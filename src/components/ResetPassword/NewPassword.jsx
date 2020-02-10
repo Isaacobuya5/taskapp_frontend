@@ -7,7 +7,7 @@ import { connect } from "react-redux";
 import "./resetpassword.css";
 
 const NewPassword = props => {
-  const { handleErrors, exists, message } = props;
+  const { handleErrors } = props;
   // initial state for the form fields
   const [newPassword, setNewPassword] = useState({
     email: "",

@@ -1,4 +1,5 @@
-const baseUri = "http://localhost:4000/api/users";
+// const baseUri = "http://localhost:4000/api/users";
+const baseUri = "https://taskapiapp.herokuapp.com/api/users";
 
 export function saveMember(member) {
   return fetch(baseUri, {

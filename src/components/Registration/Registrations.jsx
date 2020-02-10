@@ -36,16 +36,18 @@ const Registration = props => {
           email,
           password
         })
-          .then(() => console.log("Success"))
+          .then(() => {
+            return history.push("/");
+          })
           .catch(error => console.log(error))
       : setError("Sorry, your passwords does not match");
 
-    return history.push("/");
+    // return history.push("/");
   };
   return (
     <div className="registration">
-      <div class="card" style={{ width: "42rem", height: "32" }}>
-        <div class="card-body">
+      <div className="card" style={{ width: "42rem", height: "32" }}>
+        <div className="card-body">
           <form onSubmit={handleSubmit}>
             <div className="form-group">
               <label>Username:</label>

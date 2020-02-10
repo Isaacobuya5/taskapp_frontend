@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { Route, Switch, Redirect } from "react-router-dom";
 
-import { PrivateRoute } from "./components/private/PrivateRoute";
 import Header from "./components/Header/Header";
 import Login from "./components/Login/login";
 import Register from "./components/Registration/Registrations";
@@ -10,26 +9,18 @@ import AddTask from "./components/AddTask/AddTask";
 import ResetPassword from "./components/ResetPassword/ResetPassword";
 import NewPasswordForm from "./components/ResetPassword/NewPassword";
 
-import logo from "./logo.svg";
 import "./App.css";
 
-// render component based on user
-const CanAddTask = PrivateRoute(AddTask);
-
 function App(props) {
-  const [isValidUser, setIsValidUser] = useState(false);
+  // const [isValidUser, setIsValidUser] = useState(false);
 
   // check for token availability
   let userToken = localStorage.getItem("token");
-  console.log(userToken);
 
-  useEffect(() => {
-    userToken ? setIsValidUser(true) : setIsValidUser(false);
-  }, [userToken]);
+  // useEffect(() => {
+  //   userToken ? setIsValidUser(true) : setIsValidUser(false);
+  // }, [userToken]);
 
-  // const { users } = props;
-  // console.log(users);
-  // state for validUser
   return (
     <div className="container-fluid">
       <Header />

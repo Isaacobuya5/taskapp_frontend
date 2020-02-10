@@ -1,4 +1,6 @@
-const baseUri = "http://localhost:4000/api/tasks";
+// const baseUri = "http://localhost:4000/api/tasks";
+
+const baseUri = "https://taskapiapp.herokuapp.com/api/tasks";
 
 export function getAllTasks() {
   const token = localStorage.token;

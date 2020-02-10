@@ -1,12 +1,16 @@
-import { createStore, applyMiddleware, } from "redux";
+import { createStore, applyMiddleware } from "redux";
+// allows our browser to cache our store dependin on confiuration options
+import { persistStore } from "redux-persist";
+
+import rootReducer from "./reducers/rootReducer";
 import thunk from "redux-thunk";
-import { INITIAL_STATE } from "../redux/initialState";
-import { rootReducer } from "../redux/reducers/rootReducer";
 
-export const configureStore = () => {
- return createStore(
-rootReducer,
-applyMiddleware(thunk)
-)
-};
+// const middlewares = [logger];
+const middlewares = [thunk];
 
+export const store = createStore(rootReducer, applyMiddleware(...middlewares));
+
+// persisted version of our store
+export const persistor = persistStore(store);
+
+export default { store, persistor };

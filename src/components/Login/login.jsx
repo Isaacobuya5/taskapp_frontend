@@ -30,13 +30,16 @@ const Login = props => {
   const handleSubmit = event => {
     event.preventDefault();
     // dispatching the login action
-    loginMember(email, password).then(() => {
-      if (!exists) {
-        // buttonClicked();
-        return history.push("/add_task");
-      }
-      alert(message);
-    });
+    loginMember(email, password)
+      .then(() => {
+        if (!exists) {
+          // buttonClicked();
+          return history.push("/add_task");
+        }
+        alert(message);
+      })
+      .catch(error => console.log(error));
+    // alert(message);
   };
 
   return (

@@ -1,7 +1,5 @@
 import * as types from "../action.types";
 import { saveMember, loginUser, logoutUser } from "../../api/membersApi";
-import { createBrowserHistory } from "history";
-const history = createBrowserHistory();
 
 export function addNewMemberAction(member) {
   return {

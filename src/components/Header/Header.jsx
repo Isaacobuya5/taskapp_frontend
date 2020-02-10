@@ -1,20 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 
 import Logout from "../Logout/logout";
 import { connect } from "react-redux";
-import { Redirect } from "react-router-dom";
 import { withRouter } from "react-router-dom";
 import "./header.css";
 
 const Header = props => {
-  const { currentUser, buttonStatus } = props;
+  const { buttonStatus } = props;
   const { clicked } = buttonStatus;
-  console.log(buttonStatus.clicked);
-  console.log(currentUser);
-
-  // getting loggedIn Status
-  const { loggedIn } = currentUser;
-  console.log(loggedIn);
 
   return (
     <>

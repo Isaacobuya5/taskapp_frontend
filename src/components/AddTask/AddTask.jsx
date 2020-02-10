@@ -28,7 +28,6 @@ const AddTask = ({ saveNewTask }) => {
   // setting the completed status
   const handleCheckBox = event => {
     event.preventDefault();
-    const { checked } = event.target;
     setIsComplete(!completed);
   };
 
