@@ -58,7 +58,6 @@ export function loginMember(email, password) {
   return function(dispatch) {
     return loginUser(email, password)
       .then(user => {
-        console.log(user);
         dispatch(loginMemberAction(user.user));
         dispatch(buttonClickedAction());
         // history.push("/add_task")
